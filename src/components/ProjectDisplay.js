@@ -12,7 +12,7 @@ const ProjectDisplay = () => {
     const [datas, setDatas] = useState([]);
     const [searchValue, setSearchValue] = useState('');
     const [currentPage,setCurrentPage] = useState(1);
-    const [recordsPerPage] = useState(5);
+    const [recordsPerPage,setrecordsPerPage] = useState(5);
     const [sortField,setSortField] = useState();
     const [sortDirection, setSortDirection] = useState(1);
 
@@ -43,6 +43,11 @@ const ProjectDisplay = () => {
                 text : 'Edit'
             }
         })
+    }
+
+    const handleRecordPerPage = (event) => {
+        const newItem = parseInt(event.target.value)
+        setrecordsPerPage(newItem)
     }
 
     const filterDatas = (value) => {
@@ -96,16 +101,24 @@ const ProjectDisplay = () => {
         })
     }
 
+    const handleCatalog = () =>{
+        navigate("/product")
+    }
+
   return (
     <Layout>
         <div className='container'>
             <h2 className='text-center mt-5 mb-3'>Products</h2>
             <div className='card'>
-                <div className='card-header'>
-                    <button className='btn btn-outline-primary' onClick={handleCreate}>
+                <div className='card-header text-center '>
+                    <button className='btn btn-outline-primary float-left' onClick={handleCreate}>
                         Create new Products
                     </button>
-                
+                    <button className='btn btn-outline-dark' onClick={handleCatalog}>
+                        Product Catalog
+                    </button>
+
+                    
                     <Search callback={(value) => {setSearchValue(value)}}/>
                 </div>
                 <div className='card-body'>
@@ -134,12 +147,22 @@ const ProjectDisplay = () => {
                             })}
                         </tbody>
                     </table>
-
-                    <Pagination 
-                    nPages={nPages}
-                    currentPage={currentPage}
-                    setCurrentPage={setCurrentPage}
-                    />
+                    <div>
+                        <label><b>Items per page: </b>
+                            <select value={recordsPerPage} onChange={handleRecordPerPage}>
+                                <option value={5}>5</option>
+                                <option value={10}>10</option>
+                                <option value={20}>20</option>
+                                <option value={30}>30</option>
+                            </select>
+                        </label>
+                        <Pagination 
+                        nPages={nPages}
+                        currentPage={currentPage}
+                        setCurrentPage={setCurrentPage}
+                        />
+                    </div>
+                    
 
                 </div>
             </div>
